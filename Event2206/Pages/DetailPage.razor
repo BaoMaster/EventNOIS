@@ -5,13 +5,16 @@
 @inject UserService userService
 
 <div style="width:80%; margin:20px auto">
-    <Descriptions Title="User Info" Bordered Column="@column">
-        <DescriptionsItem Title="FullName">@user.FullName</DescriptionsItem>
-        <DescriptionsItem Title="Address">@user.Address</DescriptionsItem>
+    <Descriptions Title="Thông tin khách tham dự" Bordered Column="@column">
+        <DescriptionsItem Title="Họ và tên">@user.FullName</DescriptionsItem>
+        <DescriptionsItem Title="Địa chỉ">@user.Address</DescriptionsItem>
         <DescriptionsItem Title="Email">@user.Email</DescriptionsItem>
-        <DescriptionsItem Title="PhoneNumber">@user.PhoneNumber</DescriptionsItem>
-        <DescriptionsItem Title="CompanyName">
+        <DescriptionsItem Title="Số điện thoại">@user.PhoneNumber</DescriptionsItem>
+        <DescriptionsItem Title="Tên công ty">
             @user.CompanyName
+        </DescriptionsItem>
+        <DescriptionsItem Title="Ngày đăng ký">
+            @user.Created
         </DescriptionsItem>
     </Descriptions>
 </div>

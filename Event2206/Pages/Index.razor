@@ -12,20 +12,78 @@
 <style>
     .title {
         text-align: center;
+        display: flex;
+        align-items: center
     }
 
     .form-register {
+        margin: 0 auto;
+        background-color: #eaf0f2c4;
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    .ant-input-sm {
+        height: 30px;
+        border-radius: 5px
+    }
+
+    .ant-form-item-label > label {
+        font-size: 18px;
+    }
+
+    .register-container {
+        background-image: url(../Image/grunge-paint-background_1409-1337.png);
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .row-content {
+        background: #6176907a;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        border: 1px solid;
+        padding: 10px;
+    }
+
+
+    .register-content {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ant-form {
+        padding: 15px;
+    }
+
+    .ant-form-item {
+        width: 100%
+    }
+
+    .ant-form-item-control {
         margin: 0 auto
     }
+
+    .ant-btn-primary {
+        border-radius: 5px
+    }
+
 </style>
 
-<div>
-    <Row>
-        <Col Xl=12 class="title">
+<div class="register-container">
+
+
+    <Row class="row-content">
+        <Col Xl=14 class="title">
         <h1>Thân mời quý khách hàng đến tham gia buổi Seminar ngày 22/06/2022</h1>
         </Col>
-        <Col Xl=6>
-        <Form Model="@modelRules"
+        <Col Xl=10 class="form-register">
+        <Form Loading="loading" Model="@modelRules"
               ValidateMode="@FormValidateMode.Rules"
               ValidateOnChange="@validateOnChange"
               LabelColSpan="6"
@@ -49,12 +107,13 @@
             <FormItem Label="Tên công ty">
                 <Input @bind-Value="@context.CompanyName" />
             </FormItem>
+            <Row>
 
-            <FormItem WrapperColOffset="8" WrapperColSpan="16">
-                <Button Type="@ButtonType.Primary" HtmlType="submit">
-                    Submit
-                </Button>
-            </FormItem>
+                <FormItem WrapperColOffset="8" WrapperColSpan="16">
+                    @*<Button Type="@ButtonType.Primary" HtmlType="submit" Icon="@IconType.Outline.Download" Size="Large" Shape="@ButtonShape.Round">Submit</Button>*@
+                    <Button Type="@ButtonType.Primary" HtmlType="submit" Block>Primary</Button>
+                </FormItem>
+            </Row>
         </Form>
         </Col>
     </Row>
@@ -80,6 +139,9 @@
         public string CompanyName { get; set; }
 
     }
+
+
+
 
     private UserModel modelRules = new UserModel();
 
@@ -107,6 +169,7 @@
 
     private async void OnFinish(EditContext editContext)
     {
+        toggle(true);
         Console.WriteLine($"Success:{modelRules}");
 
         var model = JsonSerializer.Serialize(modelRules);
@@ -121,10 +184,12 @@
             };
 
         var res = await userService.SaveRecord(user, MyNavigationManager.Uri);
-        if (res!=null)
+        if (res != null)
         {
             NavManager.NavigateTo("/registered/" + res);
         }
+
+
 
     }
 
@@ -132,6 +197,10 @@
     {
         Console.WriteLine($"Failed:{JsonSerializer.Serialize(modelRules)}");
     }
+
+    bool loading = false;
+
+    void toggle(bool value) => loading = value;
 
 
 }

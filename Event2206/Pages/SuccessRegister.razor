@@ -12,18 +12,30 @@
     .title {
         margin: 0 auto;
         text-align: center;
+        margin: auto;
+        position: relative;
     }
 
-    .form-register {
-        margin: 0 auto
+    .row-success {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .container-success {
+        background-image: url(../Image/hand-painted-watercolor-pastel-sky-background_23-2148902771.png);
+        height: 100vh;
+        width: 100%;
     }
 </style>
 
-<div>
-    <Row>
+<div class="container-success">
+    <Row class="row-success">
         <Col Xl=14 class="title">
-        <h1>Quý khách đã đăng ký thành công, vui lòng chụp ảnh hoặc lưu lại mã QR Code bên dưới. để có thể nhận được những phần quà hấp dẫn trong buổi tiệc</h1>
-        <img src="@ImageUrl" />
+        <h1 style="margin-bottom:40px">Quý khách đã đăng ký thành công</h1>
+        <img src="@ImageUrl" width="300px" />
+        <h5 style="margin-top:20px">Vui lòng chụp ảnh hoặc lưu lại mã QR Code để có thể nhận được những phần quà hấp dẫn trong buổi tiệc</h5>
         </Col>
     </Row>
 </div>
