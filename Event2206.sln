@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event2206", "Event2206\Event2206.csproj", "{BFA08158-A04A-4369-AA8F-0FD06B7DD01F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event2206", "Event2206\Event2206.csproj", "{BFA08158-A04A-4369-AA8F-0FD06B7DD01F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event2206.Data", "Event2206.Data\Event2206.Data.csproj", "{BB668EF5-C471-4EC5-BFC9-DA96224333CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event2206.Data", "Event2206.Data\Event2206.Data.csproj", "{BB668EF5-C471-4EC5-BFC9-DA96224333CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
