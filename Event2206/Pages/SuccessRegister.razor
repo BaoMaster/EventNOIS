@@ -1,0 +1,111 @@
+﻿@page "/registered/{Id}"
+
+@using System.ComponentModel.DataAnnotations;
+@using System.Text.Json;
+@using System.Globalization
+@using Event2206.Data.Services
+@inject UserService userService;
+@inject NavigationManager MyNavigationManager
+
+
+<style>
+    .title {
+        margin: 0 auto;
+        text-align: center;
+        margin: auto;
+        position: relative;
+    }
+
+    .row-success {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .container-success {
+        background-image: url(../Image/hand-painted-watercolor-pastel-sky-background_23-2148902771.png);
+        height: 100vh;
+        width: 100%;
+    }
+</style>
+
+<div class="container-success">
+    <Row class="row-success">
+        <Col Xl=14 class="title">
+        <h1 style="margin-bottom:40px">Quý khách đã đăng ký thành công</h1>
+        <img src="@ImageUrl" width="300px" />
+        <h5 style="margin-top:20px">Vui lòng chụp ảnh hoặc lưu lại mã QR Code để có thể nhận được những phần quà hấp dẫn trong buổi tiệc</h5>
+        </Col>
+    </Row>
+</div>
+
+
+@code
+{
+
+    [Parameter]
+    public string Id { get; set; }
+    public string ImageUrl { get; set; }
+
+    public class Person
+    {
+        [Required]
+        public string Name { get; set; }
+        public int Age { get; set; } = 2;
+    }
+
+    public class Model
+    {
+        public string Username { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string CompanyName { get; set; }
+
+    }
+
+    //public string path = Path.Combine(_environment.WebRootPath, "QRImage");
+
+    private Model modelRules = new Model();
+    private bool validateOnChange = false;
+
+    private FormValidationRule[] userNameRules = new FormValidationRule[] {
+        new FormValidationRule { Required = true , Message="Vui lòng nhập Họ và tên"}
+    };
+
+    private FormValidationRule[] addressRules = new FormValidationRule[]{
+        new FormValidationRule{ Required = true , Message="Vui lòng nhập Địa chỉ"}
+    };
+
+
+    private FormValidationRule[] emailRules = new FormValidationRule[]{
+        new FormValidationRule { Type = FormFieldType.Email, Required = true, Message="Vui lòng nhập Email" },
+    };
+
+    private FormValidationRule[] phoneNumberRules = new FormValidationRule[]{
+        new FormValidationRule{ Required = true , Message="Vui lòng nhập Số điện thoại"}
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            ImageUrl = MyNavigationManager.BaseUri + "QRImage/" + Id + ".png";
+        }
+    }
+
+
+
+    private void OnFinish(EditContext editContext)
+    {
+        Console.WriteLine($"Success:{JsonSerializer.Serialize(modelRules)}");
+    }
+
+    private void OnFinishFailed(EditContext editContext)
+    {
+        Console.WriteLine($"Failed:{JsonSerializer.Serialize(modelRules)}");
+    }
+
+
+}

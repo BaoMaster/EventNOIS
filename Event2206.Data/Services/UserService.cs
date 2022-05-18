@@ -47,19 +47,24 @@ public class UserService
 
         var urlDetail = uri + user.Id.ToString();
         var MyQRWithLogo = QRCodeWriter.CreateQrCode(urlDetail);
+
         var imageName = $"{user.Id}.png";
         MyQRWithLogo.SaveAsPng(path + "/" + imageName);
 
         var img = uri + "/QRImage/" + imageName;
         //send mail
-        string body = await EmailTemplate(img);
-        await _emailService.SendEmailAsync(user.Email, "NOIS Event 22/06", body);
+        //string body = await EmailTemplate(img);
+        //await _emailService.SendEmailAsync(user.Email, "NOIS Event 22/06", body);
 
         return user.Id.ToString();
     }
 
+    public async Task<string> GetPathImage(string userId)
+    {
+        return Path.Combine(_environment.WebRootPath, $"QRImage/{userId}.png");
+    }
 
-    public async Task<string> EmailTemplate(string img)
+        public async Task<string> EmailTemplate(string img)
     {
 
         var pathToFile = _environment.WebRootPath

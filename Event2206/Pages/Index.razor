@@ -5,57 +5,202 @@
 @using Event2206.Data.Services
 @inject UserService userService;
 @inject NavigationManager MyNavigationManager
+@using System.Globalization
+@using Event2206.Data.Entities;
+@inject NavigationManager NavManager
 
-
-<Form Loading="loading" Model="@model" 
-      LabelColSpan="8"
-      WrapperColSpan="16"
-      OnFinish="OnFinish" 
-      OnFinishFailed="OnFinishFailed">
-    <FormItem Label="Username" >
-        <Input @bind-Value="@context.Username"/>
-    </FormItem>
-    <FormItem Label="Password">
-        <InputPassword @bind-Value="@context.Password" />
-    </FormItem>
-    <FormItem WrapperColOffset="8" WrapperColSpan="16">
-        <Checkbox @bind-Value="context.RememberMe">Remember me</Checkbox>
-    </FormItem>
-    <FormItem WrapperColOffset="8" WrapperColSpan="16">
-        <Button Type="@ButtonType.Primary" HtmlType="submit">
-            Submit
-        </Button>
-    </FormItem>
-</Form>
-<div style="margin-top: 16px">
-    Loading state：
-    <Switch Checked=loading OnChange=toggle />
-</div>
-@code
-{
-    public class Model
-    {
-        [Required]
-        public string Username { get; set; }
-        [Required]
-        public string Password { get; set; }
-        public bool RememberMe { get; set; } = true;
+<style>
+    .title {
+        text-align: center;
+        display: flex;
+        align-items: center
     }
 
-    private Model model = new Model();
+    .form-register {
+        margin: 0 auto;
+        background-color: #eaf0f2c4;
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    .ant-input-sm {
+        height: 30px;
+        border-radius: 5px
+    }
+
+    .ant-form-item-label > label {
+        font-size: 18px;
+    }
+
+    .register-container {
+        background-image: url(../Image/grunge-paint-background_1409-1337.png);
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .row-content {
+        background: #6176907a;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        border: 1px solid;
+        padding: 10px;
+    }
+
+
+    .register-content {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ant-form {
+        padding: 15px;
+    }
+
+    .ant-form-item {
+        width: 100%
+    }
+
+    .ant-form-item-control {
+        margin: 0 auto
+    }
+
+    .ant-btn-primary {
+        border-radius: 5px
+    }
+
+</style>
+
+<div class="register-container">
+
+
+    <Row class="row-content">
+        <Col Xl=14 class="title">
+        <h1>Thân mời quý khách hàng đến tham gia buổi Seminar ngày 22/06/2022</h1>
+        </Col>
+        <Col Xl=10 class="form-register">
+        <Form Loading="loading" Model="@modelRules"
+              ValidateMode="@FormValidateMode.Rules"
+              ValidateOnChange="@validateOnChange"
+              LabelColSpan="6"
+              LabelAlign="AntLabelAlignType.Left"
+              WrapperColSpan="14"
+              OnFinish="OnFinish"
+              OnFinishFailed="OnFinishFailed"
+              Size="@AntSizeLDSType.Small">
+            <FormItem Label="Họ và tên" Rules=@(userNameRules)>
+                <Input @bind-Value="@context.FullName" />
+            </FormItem>
+            <FormItem Label="Địa chỉ" Rules=@(addressRules)>
+                <Input @bind-Value="@context.Address" />
+            </FormItem>
+            <FormItem Label="Email" Rules=@(emailRules)>
+                <Input @bind-Value="@context.Email" />
+            </FormItem>
+            <FormItem Label="Số điện thoại" Rules=@(phoneNumberRules)>
+                <Input @bind-Value="@context.PhoneNumber" />
+            </FormItem>
+            <FormItem Label="Tên công ty">
+                <Input @bind-Value="@context.CompanyName" />
+            </FormItem>
+            <Row>
+
+                <FormItem WrapperColOffset="8" WrapperColSpan="16">
+                    @*<Button Type="@ButtonType.Primary" HtmlType="submit" Icon="@IconType.Outline.Download" Size="Large" Shape="@ButtonShape.Round">Submit</Button>*@
+                    <Button Type="@ButtonType.Primary" HtmlType="submit" Block>Primary</Button>
+                </FormItem>
+            </Row>
+        </Form>
+        </Col>
+    </Row>
+
+</div>
+
+
+@code
+{
+    public class Person
+    {
+        [Required]
+        public string Name { get; set; }
+        public int Age { get; set; } = 2;
+    }
+
+    public class UserModel
+    {
+        public string FullName { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string CompanyName { get; set; }
+
+    }
+
+
+
+
+    private UserModel modelRules = new UserModel();
+
+    private bool validateOnChange = false;
+
+    private FormValidationRule[] userNameRules = new FormValidationRule[] {
+        new FormValidationRule { Required = true , Message="Vui lòng nhập Họ và tên"}
+    };
+
+    private FormValidationRule[] addressRules = new FormValidationRule[]{
+        new FormValidationRule{ Required = true , Message="Vui lòng nhập Địa chỉ"}
+    };
+
+
+    private FormValidationRule[] emailRules = new FormValidationRule[]{
+        new FormValidationRule { Required = true, Message="Vui lòng nhập Email" },
+        new FormValidationRule { Type = FormFieldType.Email, Message="Email không hợp lệ" },
+    };
+
+    private FormValidationRule[] phoneNumberRules = new FormValidationRule[]{
+        new FormValidationRule{ Required = true , Message="Vui lòng nhập Số điện thoại"}
+    };
+
+
 
     private async void OnFinish(EditContext editContext)
     {
-        Console.WriteLine($"Success:{JsonSerializer.Serialize(model)}");
-        var res = await userService.SaveRecord(null, MyNavigationManager.Uri);
+        toggle(true);
+        Console.WriteLine($"Success:{modelRules}");
+
+        var model = JsonSerializer.Serialize(modelRules);
+        var user = new User()
+            {
+                Address = modelRules.Address,
+                CompanyName = modelRules.CompanyName,
+                Email = modelRules.Email,
+                FullName = modelRules.FullName,
+                PhoneNumber = modelRules.PhoneNumber,
+                Created = DateTime.Now
+            };
+
+        var res = await userService.SaveRecord(user, MyNavigationManager.Uri);
+        if (res != null)
+        {
+            NavManager.NavigateTo("/registered/" + res);
+        }
+
+
+
     }
 
     private void OnFinishFailed(EditContext editContext)
     {
-        Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
+        Console.WriteLine($"Failed:{JsonSerializer.Serialize(modelRules)}");
     }
 
     bool loading = false;
 
     void toggle(bool value) => loading = value;
+
+
 }
