@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/{Id}"
 
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
@@ -6,6 +6,7 @@
 
 <style>
     .title {
+        margin: 0 auto;
         text-align: center;
     }
 
@@ -16,49 +17,18 @@
 
 <div>
     <Row>
-        <Col Xl=12 class="title">
-        <h1>Thân mời quý khách hàng đến tham gia buổi Seminar ngày 22/06/2022</h1>
-        </Col>
-        <Col Xl=6 >
-        <Form Model="@modelRules"
-              ValidateMode="@FormValidateMode.Rules"
-              ValidateOnChange="@validateOnChange"
-              LabelColSpan="6"
-              LabelAlign="AntLabelAlignType.Left"
-              WrapperColSpan="14"
-              OnFinish="OnFinish"
-              OnFinishFailed="OnFinishFailed"
-              Size="@AntSizeLDSType.Small">
-            <FormItem Label="Họ và tên" Rules=@(userNameRules)>
-                <Input @bind-Value="@context.Username" />
-            </FormItem>
-            <FormItem Label="Địa chỉ" Rules=@(addressRules)>
-                <Input @bind-Value="@context.Address" />
-            </FormItem>
-            <FormItem Label="Email" Rules=@(emailRules)>
-                <Input @bind-Value="@context.Email" />
-            </FormItem>
-            <FormItem Label="Số điện thoại" Rules=@(phoneNumberRules)>
-                <Input @bind-Value="@context.PhoneNumber" />
-            </FormItem>
-            <FormItem Label="Tên công ty">
-                <Input @bind-Value="@context.CompanyName" />
-            </FormItem>
-
-            <FormItem WrapperColOffset="8" WrapperColSpan="16">
-                <Button Type="@ButtonType.Primary" HtmlType="submit">
-                    Submit
-                </Button>
-            </FormItem>
-        </Form>
+        <Col Xl=14 class="title">
+        <h1>Quý khách đã đăng ký thành công, vui lòng chụp ảnh hoặc lưu lại mã QR Code bên dưới. để có thể nhận được những phần quà hấp dẫn trong buổi tiệc</h1>
         </Col>
     </Row>
-
 </div>
 
 
 @code
 {
+    [Parameter]
+    public string Id { get; set; }
+
     public class Person
     {
         [Required]
