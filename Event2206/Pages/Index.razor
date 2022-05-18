@@ -2,6 +2,9 @@
 
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
+@using Event2206.Data.Services
+@inject UserService userService;
+@inject NavigationManager MyNavigationManager
 
 
 <Form Loading="loading" Model="@model" 
@@ -41,9 +44,10 @@
 
     private Model model = new Model();
 
-    private void OnFinish(EditContext editContext)
+    private async void OnFinish(EditContext editContext)
     {
         Console.WriteLine($"Success:{JsonSerializer.Serialize(model)}");
+        var res = await userService.SaveRecord(null, MyNavigationManager.Uri);
     }
 
     private void OnFinishFailed(EditContext editContext)

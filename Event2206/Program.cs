@@ -1,15 +1,19 @@
 using Event2206.Data;
 using Event2206.Data.EF;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Event2206.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add our Config object so it can be injected
+builder.Services.Configure<GlobalAppSetting>(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<EmailService>();
 
 
 builder.Services.AddDbContext<Event2206DbContext>(o =>
