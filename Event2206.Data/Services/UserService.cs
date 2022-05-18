@@ -2,6 +2,7 @@
 using Event2206.Data.Entities;
 using IronBarCode;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 
 namespace Event2206.Data.Services;
@@ -18,6 +19,12 @@ public class UserService
         _environment = environment;
         _emailService = emailService;
     }
+
+    public async Task<User> GetUserDetail(string userId)
+    {
+        return await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userId);
+    }
+
     public async Task<string> SaveRecord(User user, string uri)
     {
         if (user == null)

@@ -1,0 +1,15 @@
+﻿@page "/result"
+
+<Result
+    Title="Successfully!"
+    Status="success"
+    Extra=extra
+/>
+@code {
+
+    RenderFragment extra =
+        @<Button Type="primary">
+            Go To Detail
+        </Button>;
+
+}
