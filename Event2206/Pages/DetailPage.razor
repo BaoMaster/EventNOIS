@@ -1,0 +1,40 @@
+﻿@page "/{UserId}"
+
+@using Event2206.Data.Entities
+@using Event2206.Data.Services
+@inject UserService userService
+
+<div style="width:80%; margin:20px auto">
+    <Descriptions Title="User Info" Bordered Column="@column">
+        <DescriptionsItem Title="FullName">@user.FullName</DescriptionsItem>
+        <DescriptionsItem Title="Address">@user.Address</DescriptionsItem>
+        <DescriptionsItem Title="Email">@user.Email</DescriptionsItem>
+        <DescriptionsItem Title="PhoneNumber">@user.PhoneNumber</DescriptionsItem>
+        <DescriptionsItem Title="CompanyName">
+            @user.CompanyName
+        </DescriptionsItem>
+    </Descriptions>
+</div>
+@code {
+    [Parameter]
+    public string UserId { get; set; }
+
+    private User user = new User();
+
+    private Dictionary<string, int> column = new Dictionary<string, int> {
+            { "xxl", 3 },
+            { "xl", 3},
+            { "lg", 2},
+            { "md", 2},
+            { "sm", 1},
+            { "xs", 1}
+        };
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserId != null)
+        {
+            user = await userService.GetUserDetail(UserId);
+        }
+    }
+}

@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Event2206.Data\Event2206.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\QRImage\" />
+  </ItemGroup>
+
 </Project>

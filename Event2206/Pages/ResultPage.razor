@@ -1,0 +1,22 @@
+﻿@page "/result"
+@inject NavigationManager MyNavigationManager
+<Result
+    Title="Successfully!"
+    Status="success"
+>
+    <Extra>
+       <Button OnClick=OnClick Type="primary">
+            Go To Detail
+        </Button>
+    </Extra>
+</Result>
+
+@code {
+    [Parameter]
+    public string UserId { get; set; }
+
+   private void OnClick()
+    {
+        MyNavigationManager.NavigateTo("/489c181f-99ab-473f-4a00-08da38a3c141");
+    }
+}

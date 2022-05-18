@@ -1,8 +1,12 @@
-﻿@page "/{Id}"
+﻿@page "/registered/{Id}"
 
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
 @using System.Globalization
+@using Event2206.Data.Services
+@inject UserService userService;
+@inject NavigationManager MyNavigationManager
+
 
 <style>
     .title {
@@ -19,6 +23,7 @@
     <Row>
         <Col Xl=14 class="title">
         <h1>Quý khách đã đăng ký thành công, vui lòng chụp ảnh hoặc lưu lại mã QR Code bên dưới. để có thể nhận được những phần quà hấp dẫn trong buổi tiệc</h1>
+        <img src="@ImageUrl" />
         </Col>
     </Row>
 </div>
@@ -26,8 +31,10 @@
 
 @code
 {
+
     [Parameter]
     public string Id { get; set; }
+    public string ImageUrl { get; set; }
 
     public class Person
     {
@@ -45,6 +52,8 @@
         public string CompanyName { get; set; }
 
     }
+
+    //public string path = Path.Combine(_environment.WebRootPath, "QRImage");
 
     private Model modelRules = new Model();
     private bool validateOnChange = false;
@@ -65,6 +74,14 @@
     private FormValidationRule[] phoneNumberRules = new FormValidationRule[]{
         new FormValidationRule{ Required = true , Message="Vui lòng nhập Số điện thoại"}
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            ImageUrl = MyNavigationManager.BaseUri + "QRImage/" + Id + ".png";
+        }
+    }
 
 
 

@@ -2,7 +2,12 @@
 
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
+@using Event2206.Data.Services
+@inject UserService userService;
+@inject NavigationManager MyNavigationManager
 @using System.Globalization
+@using Event2206.Data.Entities;
+@inject NavigationManager NavManager
 
 <style>
     .title {
@@ -19,7 +24,7 @@
         <Col Xl=12 class="title">
         <h1>Thân mời quý khách hàng đến tham gia buổi Seminar ngày 22/06/2022</h1>
         </Col>
-        <Col Xl=6 >
+        <Col Xl=6>
         <Form Model="@modelRules"
               ValidateMode="@FormValidateMode.Rules"
               ValidateOnChange="@validateOnChange"
@@ -30,7 +35,7 @@
               OnFinishFailed="OnFinishFailed"
               Size="@AntSizeLDSType.Small">
             <FormItem Label="Họ và tên" Rules=@(userNameRules)>
-                <Input @bind-Value="@context.Username" />
+                <Input @bind-Value="@context.FullName" />
             </FormItem>
             <FormItem Label="Địa chỉ" Rules=@(addressRules)>
                 <Input @bind-Value="@context.Address" />
@@ -66,9 +71,9 @@
         public int Age { get; set; } = 2;
     }
 
-    public class Model
+    public class UserModel
     {
-        public string Username { get; set; }
+        public string FullName { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
@@ -76,7 +81,8 @@
 
     }
 
-    private Model modelRules = new Model();
+    private UserModel modelRules = new UserModel();
+
     private bool validateOnChange = false;
 
     private FormValidationRule[] userNameRules = new FormValidationRule[] {
@@ -89,7 +95,8 @@
 
 
     private FormValidationRule[] emailRules = new FormValidationRule[]{
-        new FormValidationRule { Type = FormFieldType.Email, Required = true, Message="Vui lòng nhập Email" },
+        new FormValidationRule { Required = true, Message="Vui lòng nhập Email" },
+        new FormValidationRule { Type = FormFieldType.Email, Message="Email không hợp lệ" },
     };
 
     private FormValidationRule[] phoneNumberRules = new FormValidationRule[]{
@@ -98,9 +105,27 @@
 
 
 
-    private void OnFinish(EditContext editContext)
+    private async void OnFinish(EditContext editContext)
     {
-        Console.WriteLine($"Success:{JsonSerializer.Serialize(modelRules)}");
+        Console.WriteLine($"Success:{modelRules}");
+
+        var model = JsonSerializer.Serialize(modelRules);
+        var user = new User()
+            {
+                Address = modelRules.Address,
+                CompanyName = modelRules.CompanyName,
+                Email = modelRules.Email,
+                FullName = modelRules.FullName,
+                PhoneNumber = modelRules.PhoneNumber,
+                Created = DateTime.Now
+            };
+
+        var res = await userService.SaveRecord(user, MyNavigationManager.Uri);
+        if (res!=null)
+        {
+            NavManager.NavigateTo("/registered/" + res);
+        }
+
     }
 
     private void OnFinishFailed(EditContext editContext)
