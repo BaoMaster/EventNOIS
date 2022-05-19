@@ -13,7 +13,7 @@
     .title {
         text-align: center;
         display: flex;
-        align-items: center
+        align-items: center;
     }
 
     .form-register {
@@ -30,6 +30,7 @@
 
     .ant-form-item-label > label {
         font-size: 18px;
+        font-family: 'Roboto', sans-serif;
     }
 
     .register-container {
@@ -65,12 +66,41 @@
         width: 100%
     }
 
-    .ant-form-item-control {
+    .ant-formarginontrol {
         margin: 0 auto
     }
 
     .ant-btn-primary {
         border-radius: 5px
+    }
+
+    .btn-row{
+        justify-content: center;
+    width: 50%;
+    margin: 0 auto;
+    }
+
+    @@media (max-width: 992px) {
+        .row-content{
+            margin:0 10px;
+        }
+
+        
+    }
+
+    @@media (max-width: 380px) {
+        .ant-form-item.ant-row{
+            margin:8px;
+        }
+
+        .btn-container{
+            justify-content: center;
+        }
+    }
+
+    .btn-row button{
+        height: 30px;
+    border-radius: 15px;
     }
 
 </style>
@@ -107,11 +137,11 @@
             <FormItem Label="Tên công ty">
                 <Input @bind-Value="@context.CompanyName" />
             </FormItem>
-            <Row>
 
-                <FormItem WrapperColOffset="8" WrapperColSpan="16">
+            <Row class="btn-container">
+                <FormItem WrapperColSpan="16" class="btn-row">
                     @*<Button Type="@ButtonType.Primary" HtmlType="submit" Icon="@IconType.Outline.Download" Size="Large" Shape="@ButtonShape.Round">Submit</Button>*@
-                    <Button Type="@ButtonType.Primary" HtmlType="submit" Block>Primary</Button>
+                    <Button Type="@ButtonType.Primary" HtmlType="submit" Block>Đăng Ký</Button>
                 </FormItem>
             </Row>
         </Form>
