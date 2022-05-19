@@ -29,15 +29,7 @@ public class UserService
     {
         if (user == null)
         {
-            user = new User
-            {
-                Address = "phu yen",
-                CompanyName = "NOIS",
-                Email = "nguyenthekiet2000@gmail.com",
-                FullName = "Nguyen The Kiet",
-                PhoneNumber = "0123456",
-                Created = DateTime.Now
-            };
+            return null;
         }
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
