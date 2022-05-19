@@ -53,8 +53,8 @@ public class UserService
 
         var img = uri + "/QRImage/" + imageName;
         //send mail
-        //string body = await EmailTemplate(img);
-        //await _emailService.SendEmailAsync(user.Email, "NOIS Event 22/06", body);
+        string body = await EmailTemplate(img);
+        await _emailService.SendEmailAsync(user.Email, "NOIS Event 22/06", body);
 
         return user.Id.ToString();
     }

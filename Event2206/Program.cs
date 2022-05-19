@@ -14,8 +14,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<EmailService>();
-bool result = IronBarCode.License.IsValidLicense("IRONBARCODE.NGUYENTHEKIET2000.17138-A214B7E2E9-E55SBF-HJJ3BL74IXVU-MJAJOWS2ZA7O-5UZDWMDP4FQP-KBIVGUSAKMIM-OOXEKQLNNDIW-VW5T3T-T2ONKJ5FJCOGEA-DEPLOYMENT.TRIAL-IODDAC.TRIAL.EXPIRES.17.JUN.2022");
-
 builder.Services.AddDbContext<Event2206DbContext>(o =>
 o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
