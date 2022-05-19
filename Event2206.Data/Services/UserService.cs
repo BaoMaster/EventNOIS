@@ -22,7 +22,7 @@ public class UserService
 
     public async Task<User> GetUserDetail(string userId)
     {
-        return await _context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userId);
+         return await _context.Users.FirstOrDefaultAsync(x => x.Id == new Guid(userId));
     }
 
     public async Task<string> SaveRecord(User user, string uri)
