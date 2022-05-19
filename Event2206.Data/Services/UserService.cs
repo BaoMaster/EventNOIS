@@ -29,15 +29,7 @@ public class UserService
     {
         if (user == null)
         {
-            user = new User
-            {
-                Address = "phu yen",
-                CompanyName = "NOIS",
-                Email = "nguyenthekiet2000@gmail.com",
-                FullName = "Nguyen The Kiet",
-                PhoneNumber = "0123456",
-                Created = DateTime.Now
-            };
+            return null;
         }
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
@@ -53,8 +45,8 @@ public class UserService
 
         var img = uri + "/QRImage/" + imageName;
         //send mail
-        //string body = await EmailTemplate(img);
-        //await _emailService.SendEmailAsync(user.Email, "NOIS Event 22/06", body);
+        string body = await EmailTemplate(img);
+        await _emailService.SendEmailAsync(user.Email, "NOIS Event 22/06", body);
 
         return user.Id.ToString();
     }
