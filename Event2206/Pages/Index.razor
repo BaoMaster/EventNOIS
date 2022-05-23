@@ -74,33 +74,35 @@
         border-radius: 5px
     }
 
-    .btn-row{
+    .btn-row {
         justify-content: center;
-    width: 50%;
-    margin: 0 auto;
+        width: 50%;
+        margin: 0 auto;
     }
 
     @@media (max-width: 992px) {
-        .row-content{
-            margin:0 10px;
+        .row-content {
+            margin: 0 10px;
         }
-
-        
     }
 
     @@media (max-width: 380px) {
-        .ant-form-item.ant-row{
-            margin:8px;
+        .ant-form-item.ant-row {
+            margin: 8px;
         }
 
-        .btn-container{
+        .btn-container {
             justify-content: center;
         }
     }
 
-    .btn-row button{
+    .btn-row button {
         height: 30px;
-    border-radius: 15px;
+        border-radius: 15px;
+    }
+
+    .ant-form label {
+        font-size: 18px
     }
 
 </style>
@@ -137,10 +139,15 @@
             <FormItem Label="Tên công ty">
                 <Input @bind-Value="@context.CompanyName" />
             </FormItem>
+            <FormItem>
+                <Checkbox @bind-Value="@context.isNOISCustomer">
+                    Khách hàng từ New Ocean IS
+                </Checkbox>
+            </FormItem>
 
             <Row class="btn-container">
                 <FormItem WrapperColSpan="16" class="btn-row">
-                    @*<Button Type="@ButtonType.Primary" HtmlType="submit" Icon="@IconType.Outline.Download" Size="Large" Shape="@ButtonShape.Round">Submit</Button>*@
+                        @*<Button Type="@ButtonType.Primary" HtmlType="submit" Icon="@IconType.Outline.Download" Size="Large" Shape="@ButtonShape.Round">Submit</Button>*@
                     <Button Type="@ButtonType.Primary" HtmlType="submit" Block>Đăng Ký</Button>
                 </FormItem>
             </Row>
@@ -167,11 +174,8 @@
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string CompanyName { get; set; }
-
+        public bool isNOISCustomer { get; set; } = false;
     }
-
-
-
 
     private UserModel modelRules = new UserModel();
 
@@ -200,7 +204,7 @@
     private async void OnFinish(EditContext editContext)
     {
         toggle(true);
-        Console.WriteLine($"Success:{modelRules}");
+        Console.WriteLine($"Success:{JsonSerializer.Serialize(modelRules)}");
 
         var model = JsonSerializer.Serialize(modelRules);
         var user = new User()
@@ -210,7 +214,8 @@
                 Email = modelRules.Email,
                 FullName = modelRules.FullName,
                 PhoneNumber = modelRules.PhoneNumber,
-                Created = DateTime.Now
+                Created = DateTime.Now,
+                isNOISCustomer = modelRules.isNOISCustomer,
             };
 
         var res = await userService.SaveRecord(user, MyNavigationManager.Uri);
@@ -218,8 +223,6 @@
         {
             NavManager.NavigateTo("/registered/" + res);
         }
-
-
 
     }
 

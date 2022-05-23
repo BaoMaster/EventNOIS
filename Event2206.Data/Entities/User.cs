@@ -9,4 +9,5 @@ public class User
     public string PhoneNumber { get; set; }
     public string? CompanyName { get; set; }
     public DateTime Created { get; set; }
+    public Boolean isNOISCustomer { get; set; }
 }

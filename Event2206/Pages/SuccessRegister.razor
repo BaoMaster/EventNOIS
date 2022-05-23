@@ -28,14 +28,31 @@
         height: 100vh;
         width: 100%;
     }
+
+    .a-context {
+        font-size: 18px;
+        margin-top: 25px;
+        color: #1890ff;
+        font-weight: bold;
+    }
+    .anticon{
+        vertical-align: 0.125em
+    }
 </style>
 
 <div class="container-success">
     <Row class="row-success">
         <Col Xl=14 class="title">
-        <h1 style="margin-bottom:40px">Quý khách đã đăng ký thành công</h1>
-        <img src="@ImageUrl" width="300px" />
-        <h5 style="margin-top:20px">Vui lòng chụp ảnh hoặc lưu lại mã QR Code để có thể nhận được những phần quà hấp dẫn trong buổi tiệc</h5>
+        <div>
+            <h1 style="margin-bottom:40px">Quý khách đã đăng ký thành công</h1>
+            <img src="@ImageUrl" width="300px" />
+            <h5 style="margin-top:20px">Vui lòng chụp ảnh hoặc lưu lại mã QR Code để có thể nhận được những phần quà hấp dẫn trong buổi tiệc</h5>
+        </div>
+        <div class="a-context">
+            <a href="@MyNavigationManager.BaseUri">
+                <Icon Type="arrow-left" Theme="outline"/>
+                Trở lại form đăng ký</a>
+        </div>
         </Col>
     </Row>
 </div>

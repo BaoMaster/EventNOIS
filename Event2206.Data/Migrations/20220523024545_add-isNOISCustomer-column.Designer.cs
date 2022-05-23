@@ -4,6 +4,7 @@ using Event2206.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Event2206.Data.Migrations
 {
     [DbContext(typeof(Event2206DbContext))]
-    partial class Event2206DbContextModelSnapshot : ModelSnapshot
+    [Migration("20220523024545_add-isNOISCustomer-column")]
+    partial class addisNOISCustomercolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
