@@ -15,11 +15,19 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddDbContext<Event2206DbContext>(o =>
-o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+o.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 
 builder.Services.AddAntDesign();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<Event2206DbContext>();
+    dataContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
